@@ -1,0 +1,30 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: SonarCloudPrepare@2
+  inputs:
+    SonarCloud: 'sonarcloud'
+    organization: 'devcodequality'
+    scannerMode: 'MSBuild'
+    projectKey: 'devcodequality'
+    projectName: 'Devcodequality'
+  displayName: 'Sonar cloud prepration'
+
+- task: SonarCloudAnalyze@2
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+  displayName: 'SonarcloudAnalyse'
+
+- task: SonarCloudPublish@2
+  inputs:
+    pollingTimeoutSec: '300'
+  displayName: 'Publish quality gates results'

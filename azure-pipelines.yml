@@ -9,14 +9,20 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+
 steps:
+- checkout: self
+  fetchDepth: 0
+
 - task: SonarCloudPrepare@2
   inputs:
     SonarCloud: 'sonarcloud'
     organization: 'devcodequality'
-    scannerMode: 'MSBuild'
-    projectKey: 'devcodequality'
-
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Devopspract_Devops'
+    cliProjectName: 'Devops'
+    cliSources: '.'
 
 - task: SonarCloudAnalyze@2
   inputs:
